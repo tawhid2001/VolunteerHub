@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Volunteer Hub</title>
+    <link rel="stylesheet" href="style.css" />
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH"
+      crossorigin="anonymous"
+    />
+  </head>
+  <body>
+    <header>
+      <div id="navbar"></div>
+    </header>
+    <main class="container my-4">
+      <div id="volunteer-detail" class="card">
+        <!-- Volunteer work details will be dynamically loaded here -->
+      </div>
+
+      <div id="reviews" class="mt-4">
+        <!-- Reviews will be dynamically loaded here -->
+      </div>
+
+      <form id="review-form" onsubmit="handleReview(event)">
+        <div class="form-group">
+          <label for="rating">Rating:</label>
+          <select id="rating" class="form-control" required>
+            <option value="1">⭐</option>
+            <option value="2">⭐⭐</option>
+            <option value="3">⭐⭐⭐</option>
+            <option value="4">⭐⭐⭐⭐</option>
+            <option value="5">⭐⭐⭐⭐⭐</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label for="comment">Comment:</label>
+          <textarea id="comment" class="form-control"></textarea>
+        </div>
+        <button type="submit" class="btn btn-primary mt-3">
+          Submit Review
+        </button>
+      </form>
+
+      <!-- Edit Review Modal -->
+      <div
+        class="modal fade"
+        id="editReviewModal"
+        tabindex="-1"
+        aria-labelledby="editReviewModalLabel"
+        aria-hidden="true"
+      >
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="editReviewModalLabel">Edit Review</h5>
+              <button
+                type="button"
+                class="btn-close"
+                data-bs-dismiss="modal"
+                aria-label="Close"
+              ></button>
+            </div>
+            <div class="modal-body">
+              <form id="edit-review-form">
+                <input type="hidden" id="edit-review-id" />
+                <!-- <div class="mb-3">
+                  <label for="edit-rating" class="form-label">Rating</label>
+                  <input type="number" class="form-control" id="edit-rating" min="1" max="5">
+                </div> -->
+                <div class="form-group">
+                  <label for="edit-rating" class="form-label">Rating:</label>
+                  <select id="edit-rating" class="form-control" required>
+                    <option value="1">⭐</option>
+                    <option value="2">⭐⭐</option>
+                    <option value="3">⭐⭐⭐</option>
+                    <option value="4">⭐⭐⭐⭐</option>
+                    <option value="5">⭐⭐⭐⭐⭐</option>
+                  </select>
+                </div>
+                <div class="mb-3">
+                  <label for="edit-comment" class="form-label">Comment</label>
+                  <textarea class="form-control" id="edit-comment"></textarea>
+                </div>
+                <button
+                  type="button"
+                  class="btn btn-primary"
+                  onclick="submitEditReview(event)"
+                >
+                  Save changes
+                </button>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </main>
+
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+      integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
+      crossorigin="anonymous"
+    ></script>
+    <script>
+      const hasReviewed = localStorage.getItem("hasReviewed");
+      const organizer = localStorage.getItem("organizer");
+      const username = localStorage.getItem("username");
+      const token = localStorage.getItem("authToken");
+      const reviewForm = document.getElementById("review-form");
+
+      if (!token) {
+        // Hide the review form if no one is logged in
+        reviewForm.style.display = "none";
+      } else {
+        // Determine whether to show or hide the review form
+        if (organizer === username || hasReviewed === "true") {
+          reviewForm.style.display = "none";
+        } else {
+          reviewForm.style.display = "block";
+        }
+      }
+    </script>
+    <script src="./navbar.js"></script>
+    <script src="./auth.js"></script>
+    <script src="./volunteer_details.js"></script>
+  </body>
+</html>

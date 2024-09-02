@@ -1,0 +1,149 @@
+.bg-custom{
+    background-color: rgb(177, 226, 248);
+}
+
+.bg-card{
+    background-color: rgb(225, 244, 255);
+}
+
+.error {
+    color: #ff4d4f; /* Red color to indicate error */
+    background-color: #ffe6e6; /* Light red background */
+    border: 2px solid #ff4d4f; /* Border matching the text color */
+    border-radius: 5px; /* Rounded corners */
+    padding: 10px; /* Padding around the text */
+    margin: 20px 0; /* Space above and below the error message */
+    font-weight: bold; /* Make the text bold */
+    text-align: center; /* Center the text */
+    font-size: 1.1em; /* Slightly larger text */
+}
+
+.success {
+  color: #34bb4a; /* Red color to indicate error */
+  background-color: #96f396; /* Light red background */
+  border: 2px solid #34bb4a; /* Border matching the text color */
+  border-radius: 5px; /* Rounded corners */
+  padding: 10px; /* Padding around the text */
+  margin: 20px 0; /* Space above and below the error message */
+  font-weight: bold; /* Make the text bold */
+  text-align: center; /* Center the text */
+  font-size: 1.1em; /* Slightly larger text */
+}
+
+
+/* Style for the dropdown button */
+.dropdown .btn-primary {
+  background-color: #007bff;
+  border-color: #007bff;
+  padding: 10px 20px;
+  font-size: 1.2em;
+  border-radius: 5px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+.dropdown .btn-primary:hover {
+  background-color: #0056b3;
+  border-color: #004085;
+}
+
+/* Style for the dropdown menu */
+.dropdown-menu {
+  border-radius: 5px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+}
+
+/* Style for dropdown items */
+.dropdown-menu .dropdown-item {
+  padding: 10px 20px;
+  font-size: 1em;
+  color: #333;
+  transition: background-color 0.3s, color 0.3s;
+}
+
+.dropdown-menu .dropdown-item:hover {
+  background-color: #007bff;
+  color: #fff;
+}
+
+
+.profile-container {
+  margin-top: 50px;
+}
+.profile-picture {
+  max-width: 150px;
+  border-radius: 50%;
+}
+
+/* Add styles for the profile picture in the navbar */
+#dp {
+  width: 40px; /* Adjust size as needed */
+  height: 40px; /* Adjust size as needed */
+  border-radius: 50%; /* Make it a circle */
+  object-fit: cover; /* Ensure the image covers the circle */
+  margin-right: 10px; /* Space between picture and text */
+}
+
+.dp {
+  width: 40px; /* Adjust size as needed */
+  height: 40px; /* Adjust size as needed */
+  border-radius: 50%; /* Make it a circle */
+  object-fit: cover; /* Ensure the image covers the circle */
+  margin-right: 10px; /* Space between picture and text */
+}
+
+.navbar-nav{
+  align-items: center;
+}
+.navbar-nav .nav-item {
+  align-items: center; /* Vertically center items in the navbar */
+}
+
+.navbar-nav .nav-item .btn {
+  margin-bottom: 0; /* Align text with image */
+}
+
+/* General navbar link styles */
+.navbar-nav .nav-link {
+  color: #333; /* Default color */
+  transition: color 0.3s, background-color 0.3s;
+}
+
+/* Hover effect for all navbar items */
+.navbar-nav .nav-link:hover {
+  color: #007bff; /* Change color on hover */
+  background-color: rgba(0, 123, 255, 0.1); /* Light blue background on hover */
+}
+
+/* Logout button styles */
+.logout-btn {
+  color: #dc3545; /* Red color for logout button */
+  border: none;
+  background: none;
+  cursor: pointer;
+  padding: 0.5rem;
+  transition: color 0.3s, background-color 0.3s;
+}
+
+/* Hover effect for logout button */
+.logout-btn:hover {
+  color: #fff; /* White text on hover */
+  background-color: #dc3545; /* Red background on hover */
+  border-radius: 0.25rem; /* Rounded corners for the hover background */
+}
+
+#topVolunteerCarousel {
+  width: 80%; /* Adjust the width to your needs */
+  max-width: 800px; /* Set a maximum width for the carousel */
+  margin: 0 auto; /* Center the carousel horizontally */
+  margin-top: 50px;
+}
+
+.carousel-inner img {
+  width: 100%; /* Make sure images fill the container */
+  height: auto; /* Maintain aspect ratio */
+}
+
+.carousel-caption {
+  background: rgba(0, 0, 0, 0.5); /* Semi-transparent background for better text readability */
+  padding: 1rem; /* Add some padding for aesthetics */
+}
