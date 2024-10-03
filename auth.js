@@ -27,7 +27,8 @@ document.addEventListener('DOMContentLoaded', function () {
 const handleRegistration = () => {
     const formData = new FormData();
     formData.append('username', document.getElementById('username').value);
-    formData.append('password', document.getElementById('password').value);
+    formData.append('password1', document.getElementById('password1').value);
+    formData.append('password2', document.getElementById('password2').value);
     formData.append('first_name', document.getElementById('firstName').value);
     formData.append('last_name', document.getElementById('lastName').value);
     formData.append('bio', document.getElementById('bio').value);
