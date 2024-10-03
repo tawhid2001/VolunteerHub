@@ -63,7 +63,15 @@ const handleRegistration = () => {
     })
     .catch(error => {
         console.error('Error during registration:', error);
-        // Handle error (e.g., show an error message)
+    
+        // Attempt to parse the response if it's available
+        if (error.response) {
+            return error.response.json().then(errData => {
+                document.getElementById("registration-result").innerHTML = `<p class="text-danger">${errData.detail || 'An error occurred during registration.'}</p>`;
+            });
+        } else {
+            document.getElementById("registration-result").innerHTML = '<p class="text-danger">An unexpected error occurred. Please try again.</p>';
+        }
     });
 };
 
