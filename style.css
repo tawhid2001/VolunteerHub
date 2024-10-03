@@ -2,9 +2,25 @@
     background-color: rgb(177, 226, 248);
 }
 
-.bg-card{
-    background-color: rgb(225, 244, 255);
+.navbar-brand{
+  color: 629C54;
 }
+
+.card {
+  height: 350px;
+  box-shadow: 4px 4px 8px gray;
+  transition: box-shadow 0.3s ease; /* Smooth transition */
+}
+
+.card-img-top {
+  height: 200px; /* Set a fixed height for the image */
+  object-fit: cover; /* Ensures the image covers the area without distortion */
+}
+
+.card:hover {
+  box-shadow: 4px 4px 12px black; /* Increased shadow on hover */
+}
+
 
 .error {
     color: #ff4d4f; /* Red color to indicate error */
@@ -131,19 +147,48 @@
   border-radius: 0.25rem; /* Rounded corners for the hover background */
 }
 
-#topVolunteerCarousel {
-  width: 80%; /* Adjust the width to your needs */
-  max-width: 800px; /* Set a maximum width for the carousel */
-  margin: 0 auto; /* Center the carousel horizontally */
-  margin-top: 50px;
-}
+
 
 .carousel-inner img {
-  width: 100%; /* Make sure images fill the container */
-  height: auto; /* Maintain aspect ratio */
+  object-fit: cover; /* Ensure images cover the carousel area */
+  height: 400px; /* Fixed height for images */
 }
 
 .carousel-caption {
-  background: rgba(0, 0, 0, 0.5); /* Semi-transparent background for better text readability */
-  padding: 1rem; /* Add some padding for aesthetics */
+  background: rgba(71, 71, 94, 0.5); /* Semi-transparent background */
+  padding: 1rem;
+  border-radius: 5px; /* Rounded corners for captions */
+}
+
+.carousel-caption h5 {
+  font-size: 1.75rem; /* Larger font size for headings */
+  color: #fff; /* White text color */
+}
+
+.carousel-caption p {
+  font-size: 1.25rem; /* Larger font size for paragraph */
+  color: #ddd; /* Light gray text color */
+}
+
+#footer-placeholder{
+  margin-top: 50px;
+}
+
+.btn-details {
+  display: inline-block; /* Ensures it's treated like a block element for padding */
+  width: 50%; /* Set width to 50% */
+  margin-left: 25%; /* Centers the button */
+  background-color: rgb(255, 92, 92); /* Button background */
+  color: rgb(255, 255, 255); /* Button text color */
+  padding: 10px 20px; /* Padding for spacing */
+  text-align: center; /* Center text inside the button */
+  text-decoration: none; /* Removes the underline */
+  border-radius: 5px; /* Rounded corners */
+  cursor: pointer; /* Changes the cursor on hover */
+  transition: background-color 0.3s ease; /* Smooth transition for hover effect */
+}
+
+.btn-details:hover {
+  background-color: rgb(200, 60, 60); /* Darken the background on hover */
+  text-decoration: none; /* Ensures underline doesn’t reappear on hover */
 }

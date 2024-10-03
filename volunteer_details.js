@@ -4,7 +4,7 @@ const getQueryParams = (param) => {
 };
 
 const getWorkName = (workId) =>{
-  fetch(`https://volunteerhub-backend-zlno.onrender.com/api/volunteer-work/${workId}/`, {
+  fetch(`http://127.0.0.1:8000/api/volunteer-work/${workId}/`, {
     headers: {
       Authorization: `Token ${token}`,
     },
@@ -20,7 +20,7 @@ const getDetail = () => {
     const token = localStorage.getItem("authToken");
     const currentUsername = localStorage.getItem("username"); // Assuming you store the username in localStorage
   
-    fetch(`https://volunteerhub-backend-zlno.onrender.com/api/volunteer-work/${workId}/`, {
+    fetch(`http://127.0.0.1:8000/api/volunteer-work/${workId}/`, {
       headers: {
         Authorization: `Token ${token}`,
       },
@@ -33,7 +33,7 @@ const getDetail = () => {
   
         // Fetch participant details
         const participantPromises = work.participants.map((participantId) =>
-          fetch(`https://volunteerhub-backend-zlno.onrender.com/api/users/${participantId}/`, {
+          fetch(`http://127.0.0.1:8000/api/users/${participantId}/`, {
             headers: {
               Authorization: `Token ${token}`,
             },
@@ -42,7 +42,7 @@ const getDetail = () => {
   
         // Fetch join requests if the current user is the organizer
         const joinRequestPromise = currentUsername === work.organizer
-          ? fetch(`https://volunteerhub-backend-zlno.onrender.com/api/join-requests/`, {
+          ? fetch(`http://127.0.0.1:8000/api/join-requests/`, {
               headers: {
                 Authorization: `Token ${token}`,
               },
@@ -91,11 +91,11 @@ const getDetail = () => {
             }
   
             volunteerWork.innerHTML = `
-              <div class="card-header bg-info text-white text-center py-4">
-                  <h2 class="display-4">${work.title}</h2>
-                  <img src="${work.image}" alt="${work.title}"  class="card-img-top mb-3" />
-              </div>
-              <div class="card-body bg-card p-5">
+            <div class="card-header bg-info text-white text-center py-4">
+            <h2 class="display-4">${work.title}</h2>
+            </div>
+            <div class="card-body bg-card p-5">
+            <img src="${work.image}" alt="${work.title}"  class="card-img-top mb-3" />
                   <p class="card-text lead"><strong>Description:</strong> ${
                     work.description
                   }</p>
@@ -140,11 +140,11 @@ const getDetail = () => {
             console.error("Error fetching participant details:", error);
             // Display the work details even if there is an error
             volunteerWork.innerHTML = `
-                <div class="card-header bg-info text-white text-center py-4">
-                    <h2 class="display-4">${work.title}</h2>
-                    <img src="${work.image}" alt="${work.title}" class="card-img-top mb-3" />
-                </div>
-                <div class="card-body bg-card p-5">
+            <div class="card-header bg-info text-white text-center py-4">
+            <h2 class="display-4">${work.title}</h2>
+            </div>
+            <div class="card-body bg-card p-5">
+            <img src="${work.image}" alt="${work.title}" class="card-img-top mb-3" />
                     <p class="card-text lead"><strong>Description:</strong> ${work.description}</p>
                     <p class="card-text"><strong>Date:</strong> ${new Date(work.date).toLocaleDateString()}</p>
                     <p class="card-text"><strong>Location:</strong> ${work.location}</p>
@@ -169,7 +169,7 @@ const getDetail = () => {
 
 
 const requestJoin = (workId) => {
-  fetch(`https://volunteerhub-backend-zlno.onrender.com/api/join-requests/`, {
+  fetch(`http://127.0.0.1:8000/api/join-requests/`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
@@ -191,7 +191,7 @@ const requestJoin = (workId) => {
 const approveRequest = (requestId) => {
   const token = localStorage.getItem("authToken");
 
-  fetch(`https://volunteerhub-backend-zlno.onrender.com/api/join-requests/${requestId}/approve/`, {
+  fetch(`http://127.0.0.1:8000/api/join-requests/${requestId}/approve/`, {
     method: "POST",
     headers: {
       Authorization: `Token ${token}`,
@@ -212,7 +212,7 @@ const approveRequest = (requestId) => {
 const rejectRequest = (requestId) => {
   const token = localStorage.getItem("authToken");
 
-  fetch(`https://volunteerhub-backend-zlno.onrender.com/api/join-requests/${requestId}/reject/`, {
+  fetch(`http://127.0.0.1:8000/api/join-requests/${requestId}/reject/`, {
     method: "POST",
     headers: {
       Authorization: `Token ${token}`,
@@ -238,7 +238,7 @@ document.addEventListener("DOMContentLoaded", () => {
   const token = localStorage.getItem("authToken");
 
   if (token) {
-    fetch(`https://volunteerhub-backend-zlno.onrender.com/api/volunteer-work/${workId}/has-reviewed/`, {
+    fetch(`http://127.0.0.1:8000/api/volunteer-work/${workId}/has-reviewed/`, {
       method: 'GET',
       headers: {
         'Authorization': `Token ${token}`,
@@ -267,7 +267,7 @@ const handleReview = (event) => {
   const rating = document.getElementById('rating').value;
   const comment = document.getElementById('comment').value;
 
-  fetch(`https://volunteerhub-backend-zlno.onrender.com/api/reviews/`, {
+  fetch(`http://127.0.0.1:8000/api/reviews/`, {
       method: 'POST',
       headers: {
           'Content-Type': 'application/json',
@@ -300,7 +300,7 @@ const fetchReviews = () => {
   const token = localStorage.getItem("authToken");
   const has_reviews = localStorage.getItem("hasReviewed");
 
-  fetch(`https://volunteerhub-backend-zlno.onrender.com/api/reviews/?volunteer_work=${workId}`)
+  fetch(`http://127.0.0.1:8000/api/reviews/?volunteer_work=${workId}`)
     .then(response => response.json())
     .then(data => {
       console.log(data);
@@ -328,7 +328,7 @@ const fetchReviews = () => {
 const editReview = (reviewId) => {
   const token = localStorage.getItem("authToken");
 
-  fetch(`https://volunteerhub-backend-zlno.onrender.com/api/reviews/${reviewId}/`, {
+  fetch(`http://127.0.0.1:8000/api/reviews/${reviewId}/`, {
     method: 'GET',
     headers: {
       "Content-Type": "application/json",
@@ -357,7 +357,7 @@ const submitEditReview = () => {
   const token = localStorage.getItem("authToken");
   const workId = getQueryParams("id");
 
-  fetch(`https://volunteerhub-backend-zlno.onrender.com/api/reviews/${reviewId}/`, {
+  fetch(`http://127.0.0.1:8000/api/reviews/${reviewId}/`, {
     method: 'PUT',
     headers: {
       "Content-Type": "application/json",
@@ -384,7 +384,7 @@ const submitEditReview = () => {
 const deleteReview = (reviewId) => {
   const token = localStorage.getItem("authToken");
 
-  fetch(`https://volunteerhub-backend-zlno.onrender.com/api/reviews/${reviewId}/`, {
+  fetch(`http://127.0.0.1:8000/api/reviews/${reviewId}/`, {
     method: 'DELETE',
     headers: {
       'Authorization': `Token ${token}`,

@@ -1,5 +1,5 @@
 const getVolunteerWorkList = () => {
-  fetch("https://volunteerhub-backend-zlno.onrender.com/api/volunteer-work/")
+  fetch("http://127.0.0.1:8000/api/volunteer-work/")
     .then((res) => {
       if (!res.ok) {
         throw new Error("Network Response was not ok");
@@ -22,15 +22,15 @@ function displayVolunteerWork(volunteerWorks) {
 
   volunteerWorks.forEach((work) => {
     const card = document.createElement("div");
-    card.className = "col-md-6 mb-4";
-
+    card.className = "col-lg-4 col-md-6 mb-4";
+    const imageUrl = work.image_url ? work.image_url : "./image/default_image.jpg";
     card.innerHTML = `
                 <div class="card h-100">
                     <div class="card-header bg-info text-white text-center py-4">
                     <h2 class="card-title">${work.title}</h2>
                     </div>
-                    <div class="card-body bg-card">
-                        <img src="${work.image}" alt="${work.title}" class="card-img-top mb-3" />
+                    <div class="card-body">
+                        <img src="${imageUrl}" alt="${work.title}" class="card-img-top mb-3" />
                         <p class="card-text"><strong>Description:</strong> ${
                           work.description
                         }</p>
@@ -48,7 +48,7 @@ function displayVolunteerWork(volunteerWorks) {
                         }</p>
                         <a href= "./volunteer_details.html?id=${
                           work.id
-                        }" class= "btn btn-primary">Details</a>
+                        }" class= "btn-details">Details</a>
                     </div>
                 </div>
             `;
@@ -59,7 +59,7 @@ function displayVolunteerWork(volunteerWorks) {
 
 const loadCategories = () => {
   const token = localStorage.getItem("authToken");
-  fetch("https://volunteerhub-backend-zlno.onrender.com/api/category-list/", {
+  fetch("http://127.0.0.1:8000/api/category-list/", {
     method: "GET",
     headers: {
       Authorization: `Token ${token}`,
@@ -91,57 +91,93 @@ const loadCategories = () => {
     .catch((error) => console.error("Error fetching categories:", error));
 };
 
-const orgainze = () => {
-  document
-    .getElementById("volunteerWorkForm")
-    .addEventListener("submit", function (event) {
-      event.preventDefault(); // Prevent the default form submission
+const organize = (event) => {
+  event.preventDefault();
+
+  const form = document.getElementById("volunteerWorkForm");
+  const formData = new FormData(form);
+
+  // Upload the image to ImgBB first
+  const imageFile = formData.get('image');
+  let imageUrl = '';
+
+  if (imageFile) {
+      const imgFormData = new FormData();
+      imgFormData.append('image', imageFile);
+
+      fetch('https://api.imgbb.com/1/upload?key=3e434ad625e7ba0c3ac007ba97cfdedf', {
+          method: 'POST',
+          body: imgFormData
+      })
+      .then(response => {
+          if (!response.ok) {
+              throw new Error('Image upload failed');
+          }
+          return response.json();
+      })
+      .then(imgbbData => {
+          if (imgbbData.status === 200) {
+              imageUrl = imgbbData.data.url;
+              proceedToOrganize(); // Proceed to organize volunteer work after image upload
+          } else {
+              alert('Image upload failed!');
+          }
+      })
+      .catch(error => {
+          console.error('Error uploading to Imgbb:', error);
+          alert('Image upload failed!');
+      });
+  } else {
+      // No image, proceed to organize directly
+      proceedToOrganize();
+  }
+
+  function proceedToOrganize() {
+      // Prepare the data to be sent to the backend
+      const volunteerData = {
+          title: formData.get("title"),
+          description: formData.get("description"),
+          location: formData.get("location"),
+          date: formData.get("date"),
+          category: formData.get("category"),
+          image_url: imageUrl // Use the URL from Imgbb if available
+      };
 
       const token = localStorage.getItem("authToken");
-      const title = document.getElementById("title").value;
-      const description = document.getElementById("description").value;
-      const location = document.getElementById("location").value;
-      const date = document.getElementById("date").value;
-      const category = document.getElementById("category").value;
-      const image = document.getElementById("image").files[0]; // Get the image file
 
-      const formData = new FormData();
-      formData.append("title", title);
-      formData.append("description", description);
-      formData.append("location", location);
-      formData.append("date", date);
-      formData.append("category", category);
-      if (image) formData.append("image", image); // Append the image file if selected
-
-      fetch("https://volunteerhub-backend-zlno.onrender.com/api/volunteer-work/", {
-        method: "POST",
-        headers: {
-          Authorization: `Token ${token}`,
-        },
-        body: formData,
+      fetch("http://127.0.0.1:8000/api/volunteer-work/", {
+          method: "POST",
+          headers: {
+              "Content-Type": "application/json", // Using JSON as we're now sending JSON data
+              "Authorization": `Token ${token}` // Fixed token format
+          },
+          body: JSON.stringify(volunteerData) // Convert data to JSON
       })
-        .then((response) =>
-          response
-            .json()
-            .then((data) => ({ status: response.status, body: data }))
-        )
-        .then((data) => {
-          if (data.status === 201) {
-            window.location.href = "./index.html";
+      .then(response => {
+          if (response.ok) {
+              return response.json();
           } else {
-            alert("Error: " + data.body.detail); // Show error message from the API
+              return response.json().then(errorData => {
+                  throw new Error(errorData.detail || 'Failed to organize volunteer work!');
+              });
           }
-        })
-        .catch((error) =>
-          console.error("Error organizing volunteer work:", error)
-        );
-    });
+      })
+      .then(data => {
+          // Redirect on success
+          window.location.href = "./index.html";
+      })
+      .catch(error => {
+          console.error('Error organizing volunteer work:', error);
+          alert('Failed to organize volunteer work: ' + error.message);
+      });
+  }
 };
+
 
 
 const loadWorkByCategory = (search) => {
   const token = localStorage.getItem("authToken");
-  fetch(`https://volunteerhub-backend-zlno.onrender.com/api/list/${search}/`, {
+  fetch(`http://127.0.0.1:8000/api/list/${search}/`, {
     method: "GET",
     headers: {
       "Content-Type": "application/json",
@@ -157,7 +193,7 @@ const loadWorkByCategory = (search) => {
 loadCategories();
 
 const getMyVolunteerWorkList = () => {
-  fetch("https://volunteerhub-backend-zlno.onrender.com/api/my-works/", {
+  fetch("http://127.0.0.1:8000/api/my-works/", {
     headers: {
       "Content-Type": "application/json",
       Authorization: `Token ${localStorage.getItem("authToken")}`,
@@ -176,7 +212,7 @@ const getMyVolunteerWorkList = () => {
 };
 
 const getMyParticipatedVolunteerWorkList = () => {
-  fetch("https://volunteerhub-backend-zlno.onrender.com/api/participated/", {
+  fetch("http://127.0.0.1:8000/api/participated/", {
     headers: {
       Authorization: `Token ${localStorage.getItem("authToken")}`,
     },
@@ -195,7 +231,7 @@ const getMyParticipatedVolunteerWorkList = () => {
 
 const getUserDetail = () => {
   // Fetch user details using the token
-  fetch("https://volunteerhub-backend-zlno.onrender.com/api/auth/user/", {
+  fetch("http://127.0.0.1:8000/api/auth/user/", {
     method: "GET",
     headers: {
       Authorization: `Token ${localStorage.getItem("authToken")}`,
