@@ -6,7 +6,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
     // Fetch user details
     function loadUserProfile() {
-        fetch("http://127.0.0.1:8000/api/auth/user/", {
+        fetch("https://volunteerhub-backend-zlno.onrender.com/api/auth/user/", {
             method: "GET",
             headers: {
                 "Content-Type": "application/json",
@@ -51,7 +51,7 @@ document.addEventListener('DOMContentLoaded', function () {
         }
 
 
-        fetch("http://127.0.0.1:8000/api/auth/user/edit/", {
+        fetch("https://volunteerhub-backend-zlno.onrender.com/api/auth/user/edit/", {
             method: "PUT",
             headers: {
                 "Authorization": `Token ${authToken}`,

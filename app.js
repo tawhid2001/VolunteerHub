@@ -1,5 +1,5 @@
 const getVolunteerWorkList = () => {
-  fetch("http://127.0.0.1:8000/api/volunteer-work/")
+  fetch("https://volunteerhub-backend-zlno.onrender.com/api/volunteer-work/")
     .then((res) => {
       if (!res.ok) {
         throw new Error("Network Response was not ok");
@@ -59,7 +59,7 @@ function displayVolunteerWork(volunteerWorks) {
 
 const loadCategories = () => {
   const token = localStorage.getItem("authToken");
-  fetch("http://127.0.0.1:8000/api/category-list/", {
+  fetch("https://volunteerhub-backend-zlno.onrender.com/api/category-list/", {
     method: "GET",
     headers: {
       Authorization: `Token ${token}`,
@@ -145,7 +145,7 @@ const organize = (event) => {
 
       const token = localStorage.getItem("authToken");
 
-      fetch("http://127.0.0.1:8000/api/volunteer-work/", {
+      fetch("https://volunteerhub-backend-zlno.onrender.com/api/volunteer-work/", {
           method: "POST",
           headers: {
               "Content-Type": "application/json", // Using JSON as we're now sending JSON data
@@ -177,7 +177,7 @@ const organize = (event) => {
 
 const loadWorkByCategory = (search) => {
   const token = localStorage.getItem("authToken");
-  fetch(`http://127.0.0.1:8000/api/list/${search}/`, {
+  fetch(`https://volunteerhub-backend-zlno.onrender.com/api/list/${search}/`, {
     method: "GET",
     headers: {
       "Content-Type": "application/json",
@@ -193,7 +193,7 @@ const loadWorkByCategory = (search) => {
 loadCategories();
 
 const getMyVolunteerWorkList = () => {
-  fetch("http://127.0.0.1:8000/api/my-works/", {
+  fetch("https://volunteerhub-backend-zlno.onrender.com/api/my-works/", {
     headers: {
       "Content-Type": "application/json",
       Authorization: `Token ${localStorage.getItem("authToken")}`,
@@ -212,7 +212,7 @@ const getMyVolunteerWorkList = () => {
 };
 
 const getMyParticipatedVolunteerWorkList = () => {
-  fetch("http://127.0.0.1:8000/api/participated/", {
+  fetch("https://volunteerhub-backend-zlno.onrender.com/api/participated/", {
     headers: {
       Authorization: `Token ${localStorage.getItem("authToken")}`,
     },
@@ -231,7 +231,7 @@ const getMyParticipatedVolunteerWorkList = () => {
 
 const getUserDetail = () => {
   // Fetch user details using the token
-  fetch("http://127.0.0.1:8000/api/auth/user/", {
+  fetch("https://volunteerhub-backend-zlno.onrender.com/api/auth/user/", {
     method: "GET",
     headers: {
       Authorization: `Token ${localStorage.getItem("authToken")}`,

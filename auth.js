@@ -25,7 +25,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
 // Function for handling user registration
 function handleRegistration(formData) {
-    fetch('http://127.0.0.1:8000/api/auth/registration/', {
+    fetch('https://volunteerhub-backend-zlno.onrender.com/api/auth/registration/', {
         method: 'POST',
         body: formData,
     })
@@ -50,7 +50,7 @@ function handleRegistration(formData) {
 
 // Function for handling user login
 function handleLogin(formData) {
-    fetch("http://127.0.0.1:8000/api/auth/login/", {
+    fetch("https://volunteerhub-backend-zlno.onrender.com/api/auth/login/", {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
@@ -78,7 +78,7 @@ function handleLogin(formData) {
 function logout() {
     const token = localStorage.getItem('authToken');
 
-    fetch('http://127.0.0.1:8000/api/auth/logout/', {
+    fetch('https://volunteerhub-backend-zlno.onrender.com/api/auth/logout/', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
