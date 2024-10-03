@@ -25,19 +25,27 @@ document.addEventListener('DOMContentLoaded', function () {
 
 // Function for handling user registration
 const handleRegistration = () => {
-    const formData = new FormData();
-    formData.append('username', document.getElementById('username').value);
-    formData.append('password1', document.getElementById('password1').value);
-    formData.append('password2', document.getElementById('password2').value);
-    formData.append('first_name', document.getElementById('firstName').value);
-    formData.append('last_name', document.getElementById('lastName').value);
-    formData.append('bio', document.getElementById('bio').value);
-    formData.append('contact_info', document.getElementById('contactInfo').value);
-
-    const profilePicture = document.getElementById('profilePicture').files[0];
-    if (profilePicture) {
-        formData.append('profile_picture', profilePicture);
+    const password1 = document.getElementById("password1").value;
+    const password2 = document.getElementById("password2").value;
+    if (password1 !== password2) {
+        document.getElementById("registration-result").innerHTML = '<p class="text-danger">Passwords do not match!</p>';
+        return;
     }
+    const formData = new FormData();
+    formData.append("username", document.getElementById("username").value);
+    formData.append("email", document.getElementById("email").value);
+    formData.append("password1", password1);
+    formData.append("password2", password2);
+    formData.append("first_name", document.getElementById("first_name").value);
+    formData.append("last_name", document.getElementById("last_name").value);
+    formData.append("bio", document.getElementById("bio").value);
+    formData.append("contact_info", document.getElementById("contact_info").value);
+
+    const profilePicture = document.getElementById("profile_picture").files[0];
+    if (profilePicture) {
+        formData.append("profile_picture", profilePicture);
+    }
+
 
     fetch('https://volunteerhub-backend-zlno.onrender.com/api/auth/registration/', {
         method: 'POST',
