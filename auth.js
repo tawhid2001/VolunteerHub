@@ -6,7 +6,7 @@ document.addEventListener('DOMContentLoaded', function () {
     if (registrationForm) {
         registrationForm.addEventListener('submit', function (event) {
             event.preventDefault();
-            handleRegistration(new FormData(this));
+            handleRegistration();
         });
     }
 
@@ -24,29 +24,41 @@ document.addEventListener('DOMContentLoaded', function () {
 });
 
 // Function for handling user registration
-function handleRegistration(formData) {
+const handleRegistration = () => {
+    const formData = new FormData();
+    formData.append('username', document.getElementById('username').value);
+    formData.append('password', document.getElementById('password').value);
+    formData.append('first_name', document.getElementById('firstName').value);
+    formData.append('last_name', document.getElementById('lastName').value);
+    formData.append('bio', document.getElementById('bio').value);
+    formData.append('contact_info', document.getElementById('contactInfo').value);
+
+    const profilePicture = document.getElementById('profilePicture').files[0];
+    if (profilePicture) {
+        formData.append('profile_picture', profilePicture);
+    }
+
     fetch('https://volunteerhub-backend-zlno.onrender.com/api/auth/registration/', {
         method: 'POST',
         body: formData,
     })
-    .then(response => response.json())
-    .then(data => {
-        if (data.key) {
-            document.getElementById('registration-result').innerHTML = `<p class="success">Registration successful!</p>`;
-            window.location.href = "login.html";
-        } else {
-            let errors = '';
-            for (const [field, errorMessages] of Object.entries(data)) {
-                errors += `<p class="error">${errorMessages.join(', ')}</p>`;
-            }
-            document.getElementById('registration-result').innerHTML = errors;
+    .then(response => {
+        if (!response.ok) {
+            throw new Error('Network response was not ok');
         }
+        return response.json();
+    })
+    .then(data => {
+        console.log('Registration successful:', data);
+        // Handle successful registration (e.g., redirect or show a success message)
     })
     .catch(error => {
-        console.error('Error:', error);
-        document.getElementById('registration-result').innerHTML = '<p class="error">There was an error processing your registration.</p>';
+        console.error('Error during registration:', error);
+        // Handle error (e.g., show an error message)
     });
-}
+};
+
+
 
 // Function for handling user login
 function handleLogin(formData) {
