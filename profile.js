@@ -45,7 +45,7 @@ document.addEventListener('DOMContentLoaded', function () {
         if (profilePictureInput.files.length > 0) {
             formData.append('profile_picture', profilePictureInput.files[0]);
         }
-        
+       
         for (let [key, value] of formData.entries()) {
             console.log(`${key}: ${value}`);
         }

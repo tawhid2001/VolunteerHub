@@ -27,10 +27,12 @@ document.addEventListener('DOMContentLoaded', function () {
 const handleRegistration = () => {
     const password1 = document.getElementById("password1").value;
     const password2 = document.getElementById("password2").value;
+
     if (password1 !== password2) {
         document.getElementById("registration-result").innerHTML = '<p class="text-danger">Passwords do not match!</p>';
         return;
     }
+
     const formData = new FormData();
     formData.append("username", document.getElementById("username").value);
     formData.append("email", document.getElementById("email").value);
@@ -42,11 +44,15 @@ const handleRegistration = () => {
     formData.append("contact_info", document.getElementById("contact_info").value);
 
     const profilePicture = document.getElementById("profile_picture").files[0];
+    
+    // Append the profile picture or default image if none is selected
     if (profilePicture) {
         formData.append("profile_picture", profilePicture);
+    } else {
+        // Append a default image if no profile picture is provided
+        formData.append("profile_picture", "image/default_profile.jpg"); // Ensure this path is correct
     }
-
-
+    
     fetch('https://volunteerhub-backend-zlno.onrender.com/api/auth/registration/', {
         method: 'POST',
         body: formData,
@@ -74,6 +80,7 @@ const handleRegistration = () => {
         }
     });
 };
+
 
 
 
