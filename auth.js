@@ -29,7 +29,7 @@ const handleRegistration = () => {
     const password2 = document.getElementById("password2").value;
 
     if (password1 !== password2) {
-        document.getElementById("registration-result").innerHTML = '<p class="text-danger">Passwords do not match!</p>';
+        document.getElementById("registration-result").innerHTML = '<p class="error">Passwords do not match!</p>';
         return;
     }
 
@@ -64,6 +64,7 @@ const handleRegistration = () => {
     })
     .then(data => {
         console.log('Registration successful:', data);
+        window.location.href = "./login.html";
         // Handle successful registration (e.g., redirect or show a success message)
     })
     .catch(error => {
@@ -74,8 +75,6 @@ const handleRegistration = () => {
             return error.response.json().then(errData => {
                 document.getElementById("registration-result").innerHTML = `<p class="error">${errData.detail || 'An error occurred during registration.'}</p>`;
             });
-        } else {
-            document.getElementById("registration-result").innerHTML = '<p class="error">An unexpected error occurred. Please try again.</p>';
         }
     });
 };
