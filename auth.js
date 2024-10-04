@@ -49,16 +49,18 @@ const handleRegistration = () => {
     if (profilePicture) {
         formData.append("profile_picture", profilePicture);
     } 
-    
+
     fetch('https://volunteerhub-backend-zlno.onrender.com/api/auth/registration/', {
         method: 'POST',
         body: formData,
     })
     .then(response => {
         if (!response.ok) {
-            throw new Error('Network response was not ok');
-        }
-        return response.json();
+        return response.text().then(text => { // Get the response text
+            throw new Error(`Network response was not ok: ${text}`);
+        });
+    }
+    return response.json();
     })
     .then(data => {
         console.log('Registration successful:', data);
