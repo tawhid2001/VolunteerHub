@@ -48,10 +48,7 @@ const handleRegistration = () => {
     // Append the profile picture or default image if none is selected
     if (profilePicture) {
         formData.append("profile_picture", profilePicture);
-    } else {
-        // Append a default image if no profile picture is provided
-        formData.append("profile_picture", "image/default_profile.jpg"); // Ensure this path is correct
-    }
+    } 
     
     fetch('https://volunteerhub-backend-zlno.onrender.com/api/auth/registration/', {
         method: 'POST',
