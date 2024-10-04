@@ -19,47 +19,81 @@
     </header>
 
     <main>
-      <!-- Register Form -->
-      <div class="mx-auto w-75 mt-5">
-        <form id="registration-form" enctype="multipart/form-data" class="needs-validation" novalidate>
+
+      <div class="d-flex justify-content-between align-items-center">
+        <div class="w-50 m-3 p-3">
+          <img src="image/Sign In.png" alt="Sign In" class="img-fluid">
+        </div>
+        
+        <!-- Register Form -->
+        <div class="w-50 m-3 p-3">
+          <form id="registration-form" enctype="multipart/form-data" class="needs-validation" novalidate>
+            
+            <!-- Username -->
             <div class="mb-3">
               <label for="username" class="form-label">Username:</label>
               <input type="text" id="username" name="username" class="form-control" required>
+              <div class="invalid-feedback">Please enter a username.</div>
             </div>
+        
+            <!-- Email -->
             <div class="mb-3">
               <label for="email" class="form-label">Email:</label>
               <input type="email" id="email" name="email" class="form-control" required>
+              <div class="invalid-feedback">Please enter a valid email address.</div>
             </div>
+        
+            <!-- Password -->
             <div class="mb-3">
               <label for="password1" class="form-label">Password:</label>
               <input type="password" id="password1" name="password1" class="form-control" required>
+              <div class="invalid-feedback">Please enter a password.</div>
             </div>
+        
+            <!-- Confirm Password -->
             <div class="mb-3">
               <label for="password2" class="form-label">Confirm Password:</label>
               <input type="password" id="password2" name="password2" class="form-control" required>
+              <div class="invalid-feedback">Please confirm your password.</div>
             </div>
+        
+            <!-- First Name -->
             <div class="mb-3">
               <label for="first_name" class="form-label">First Name:</label>
               <input type="text" id="first_name" name="first_name" class="form-control" required>
+              <div class="invalid-feedback">Please enter your first name.</div>
             </div>
+        
+            <!-- Last Name -->
             <div class="mb-3">
               <label for="last_name" class="form-label">Last Name:</label>
               <input type="text" id="last_name" name="last_name" class="form-control" required>
+              <div class="invalid-feedback">Please enter your last name.</div>
             </div>
+        
+            <!-- Profile Picture -->
             <div class="mb-3">
               <label for="profile_picture" class="form-label">Profile Picture:</label>
               <input type="file" id="profile_picture" name="profile_picture" class="form-control" accept="image/*">
+              <div class="invalid-feedback">Please upload a profile picture.</div>
             </div>
+        
+            <!-- Bio -->
             <div class="mb-3">
               <label for="bio" class="form-label">Bio:</label>
               <textarea id="bio" name="bio" class="form-control"></textarea>
             </div>
+        
+            <!-- Contact Info -->
             <div class="mb-3">
               <label for="contact_info" class="form-label">Contact Info:</label>
               <input type="text" id="contact_info" name="contact_info" class="form-control">
             </div>
-            <button type="submit" class="btn btn-primary mb-3">Register</button>
+        
+            <!-- Submit Button -->
+            <button type="submit" class="btn btn-primary w-100 mb-3">Register</button>
           </form>
+        </div>
       </div>
         
         <div id="registration-result"></div>
