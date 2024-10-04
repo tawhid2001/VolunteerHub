@@ -28,6 +28,9 @@ const handleRegistration = () => {
     const password1 = document.getElementById("password1").value;
     const password2 = document.getElementById("password2").value;
 
+    // Clear previous errors
+    document.getElementById("registration-result").innerHTML = '';
+
     if (password1 !== password2) {
         document.getElementById("registration-result").innerHTML = '<p class="error">Passwords do not match!</p>';
         return;
@@ -56,28 +59,39 @@ const handleRegistration = () => {
     })
     .then(response => {
         if (!response.ok) {
-        return response.text().then(text => { // Get the response text
-            throw new Error(`Network response was not ok: ${text}`);
-        });
-    }
-    return response.json();
+            return response.json().then(errData => {
+                throw new Error(JSON.stringify(errData)); // Pass the error data as JSON string
+            });
+        }
+        return response.json();
     })
     .then(data => {
         console.log('Registration successful:', data);
-        window.location.href = "./login.html";
-        // Handle successful registration (e.g., redirect or show a success message)
+        window.location.href = "./login.html";  // Redirect on success
     })
     .catch(error => {
         console.error('Error during registration:', error);
-    
-        // Attempt to parse the response if it's available
-        if (error.response) {
-            return error.response.json().then(errData => {
-                document.getElementById("registration-result").innerHTML = `<p class="error">${errData.detail || 'An error occurred during registration.'}</p>`;
-            });
+
+        // Parse error message from the API response
+        let errorMessage = 'An error occurred during registration.';
+        
+        try {
+            const parsedError = JSON.parse(error.message);
+            if (parsedError) {
+                // Loop through error fields and display each in a <p> element with class "error"
+                for (const [field, messages] of Object.entries(parsedError)) {
+                    messages.forEach(message => {
+                        const errorElement = `<p class="error">${field}: ${message}</p>`;
+                        document.getElementById("registration-result").innerHTML += errorElement;
+                    });
+                }
+            }
+        } catch (err) {
+            document.getElementById("registration-result").innerHTML = `<p class="error">${errorMessage}</p>`;
         }
     });
 };
+
 
 
 
