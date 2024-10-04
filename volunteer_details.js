@@ -89,13 +89,13 @@ const getDetail = () => {
                 </ul>
               `;
             }
-  
+            const imageUrl = work.image_url ? work.image_url : "./image/default_image.jpg";
             volunteerWork.innerHTML = `
             <div class="card-header bg-info text-white text-center py-4">
             <h2 class="display-4">${work.title}</h2>
             </div>
             <div class="card-body bg-card p-5">
-            <img src="${work.image}" alt="${work.title}"  class="card-img-top mb-3" />
+            <img src="${imageUrl}" alt="${work.title}"  class="card-img-top mb-3" />
                   <p class="card-text lead"><strong>Description:</strong> ${
                     work.description
                   }</p>
@@ -144,7 +144,7 @@ const getDetail = () => {
             <h2 class="display-4">${work.title}</h2>
             </div>
             <div class="card-body bg-card p-5">
-            <img src="${work.image}" alt="${work.title}" class="card-img-top mb-3" />
+            <img src="${imageUrl}" alt="${work.title}" class="card-img-top mb-3" />
                     <p class="card-text lead"><strong>Description:</strong> ${work.description}</p>
                     <p class="card-text"><strong>Date:</strong> ${new Date(work.date).toLocaleDateString()}</p>
                     <p class="card-text"><strong>Location:</strong> ${work.location}</p>
