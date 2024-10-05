@@ -192,3 +192,30 @@
   background-color: rgb(200, 60, 60); /* Darken the background on hover */
   text-decoration: none; /* Ensures underline doesn’t reappear on hover */
 }
+
+#volunteerWorkForm {
+  background-color: #f0f0f0;
+  padding: 20px;
+  border-radius: 8px;
+  transition: background-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+#volunteerWorkForm:hover {
+  background-color: #e0e0e0;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+#volunteerWorkForm input,
+#volunteerWorkForm button {
+  padding: 10px;
+  margin: 5px 0;
+  border-radius: 4px;
+  border: 1px solid #ccc;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+#volunteerWorkForm button:hover {
+  background-color: #4CAF50;
+  color: white;
+  transform: scale(1.05);
+}
