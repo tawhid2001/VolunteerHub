@@ -4,9 +4,12 @@ document.addEventListener('DOMContentLoaded', function () {
     const profilePictureInput = document.getElementById('profile-picture-input');
     const updateResult = document.getElementById('update-result');
 
+    // Imgbb API key (replace with your actual key)
+    const imgbbApiKey = '74a46b9f674cfe097a70c2c8824668a7';
+
     // Fetch user details
     function loadUserProfile() {
-        fetch("https://volunteerhub-backend-zlno.onrender.com/api/auth/user/", {
+        fetch("http://127.0.0.1:8000/api/auth/user/", {
             method: "GET",
             headers: {
                 "Content-Type": "application/json",
@@ -33,46 +36,59 @@ document.addEventListener('DOMContentLoaded', function () {
         });
     }
 
+    // Helper function to upload image to Imgbb
+    const uploadToImgbb = async (file) => {
+        const formData = new FormData();
+        formData.append("image", file);
+
+        const response = await fetch(`https://api.imgbb.com/1/upload?key=${imgbbApiKey}`, {
+            method: 'POST',
+            body: formData,
+        });
+
+        if (!response.ok) {
+            throw new Error('Failed to upload image to Imgbb');
+        }
+
+        const data = await response.json();
+        return data.data.url; // Return the full URL of the uploaded image
+    };
+
     // Update user profile
-    profileForm.addEventListener('submit', function (event) {
+    profileForm.addEventListener('submit', async function (event) {
         event.preventDefault();
-        let formData = new FormData(profileForm);
-        for (let [key, value] of formData.entries()) {
-            console.log(`${key}: ${value}`);
-        }
+        
+        const formData = new FormData(profileForm);
 
-        // Only append the profile picture if a new file is selected
-        if (profilePictureInput.files.length > 0) {
-            formData.append('profile_picture', profilePictureInput.files[0]);
-        }
-       
-        for (let [key, value] of formData.entries()) {
-            console.log(`${key}: ${value}`);
-        }
+        try {
+            // Check if a new profile picture is selected
+            if (profilePictureInput.files.length > 0) {
+                const profilePictureUrl = await uploadToImgbb(profilePictureInput.files[0]);
+                formData.set('profile_picture', profilePictureUrl); // Set Imgbb URL in form data
+            } else {
+                formData.delete('profile_picture'); // Remove field if no new picture is selected
+            }
 
+            const response = await fetch("http://127.0.0.1:8000/api/auth/user/edit/", {
+                method: "PUT",
+                headers: {
+                    "Authorization": `Token ${authToken}`,
+                },
+                body: formData
+            });
 
-        fetch("https://volunteerhub-backend-zlno.onrender.com/api/auth/user/edit/", {
-            method: "PUT",
-            headers: {
-                "Authorization": `Token ${authToken}`,
-            },
-            body: formData
-        })
-        .then(response => {
+            const data = await response.json();
             if (!response.ok) {
                 console.error('Error details:', data);
                 throw new Error(data.detail || 'Failed to update profile.');
             }
-            return response.json();
-        })
-        .then(data => {
+
             updateResult.innerHTML = '<p class="success">Profile updated successfully!</p>';
             loadUserProfile(); // Reload profile data after update
-        })
-        .catch(error => {
+        } catch (error) {
             console.error('Error updating profile:', error);
             updateResult.innerHTML = '<p class="error">Error updating profile.</p>';
-        });
+        }
     });
 
     // Initial load of user profile data

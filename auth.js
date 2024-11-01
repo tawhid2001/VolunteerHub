@@ -24,7 +24,7 @@ document.addEventListener('DOMContentLoaded', function () {
 });
 
 // Function for handling user registration
-const handleRegistration = () => {
+const handleRegistration = async () => {
     const password1 = document.getElementById("password1").value;
     const password2 = document.getElementById("password2").value;
 
@@ -44,47 +44,66 @@ const handleRegistration = () => {
     formData.append("contact_info", document.getElementById("contact_info").value);
 
     const profilePicture = document.getElementById("profile_picture").files[0];
-    
-    // Append the profile picture or default image if none is selected
-    if (profilePicture) {
-        formData.append("profile_picture", profilePicture);
-    } 
 
-    fetch('https://volunteerhub-backend-zlno.onrender.com/api/auth/registration/', {
-        method: 'POST',
-        body: formData,
-    })
-    .then(response => {
-        if (!response.ok) {
-        return response.text().then(text => { // Get the response text
-            throw new Error(`Network response was not ok: ${text}`);
+    try {
+        if (profilePicture) {
+            // Upload the image to Imgbb and get the full URL
+            const profilePictureUrl = await uploadToImgbb(profilePicture);
+            formData.append("profile_picture", profilePictureUrl); // Append the Imgbb URL as a full URL
+        }
+
+        const response = await fetch('http://127.0.0.1:8000/api/auth/registration/', {
+            method: 'POST',
+            body: formData,
         });
-    }
-    return response.json();
-    })
-    .then(data => {
+
+        if (!response.ok) {
+            const text = await response.text(); // Get the response text
+            throw new Error(`Network response was not ok: ${text}`);
+        }
+
+        const data = await response.json();
         console.log('Registration successful:', data);
         window.location.href = "./login.html";
-        // Handle successful registration (e.g., redirect or show a success message)
-    })
-    .catch(error => {
+    } catch (error) {
         console.error('Error during registration:', error);
-    
-        // Attempt to parse the response if it's available
+
         if (error.response) {
-            return error.response.json().then(errData => {
-                document.getElementById("registration-result").innerHTML = `<p class="error">${errData.detail || 'An error occurred during registration.'}</p>`;
-            });
+            const errData = await error.response.json();
+            document.getElementById("registration-result").innerHTML = `<p class="error">${errData.detail || 'An error occurred during registration.'}</p>`;
         }
-    });
+    }
 };
 
+// Helper function to upload image to Imgbb
+const uploadToImgbb = async (file) => {
+    const imgbbApiKey = '74a46b9f674cfe097a70c2c8824668a7'; // Replace with your Imgbb API key
+    const formData = new FormData();
+    formData.append("image", file);
+
+    try {
+        const response = await fetch(`https://api.imgbb.com/1/upload?key=${imgbbApiKey}`, {
+            method: 'POST',
+            body: formData,
+        });
+
+        if (!response.ok) {
+            throw new Error('Failed to upload image to Imgbb');
+        }
+
+        const data = await response.json();
+        return data.data.url; // Return the full image URL from Imgbb
+    } catch (error) {
+        console.error('Error uploading image to Imgbb:', error);
+        throw error;
+    }
+};
 
 
 
 // Function for handling user login
 function handleLogin(formData) {
-    fetch("https://volunteerhub-backend-zlno.onrender.com/api/auth/login/", {
+    fetch("http://127.0.0.1:8000/api/auth/login/", {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
@@ -112,7 +131,7 @@ function handleLogin(formData) {
 function logout() {
     const token = localStorage.getItem('authToken');
 
-    fetch('https://volunteerhub-backend-zlno.onrender.com/api/auth/logout/', {
+    fetch('http://127.0.0.1:8000/api/auth/logout/', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
