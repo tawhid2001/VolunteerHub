@@ -9,7 +9,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
     // Fetch user details
     function loadUserProfile() {
-        fetch("http://127.0.0.1:8000/api/auth/user/", {
+        fetch("https://volunteer-backend-xi.vercel.app/api/auth/user/", {
             method: "GET",
             headers: {
                 "Content-Type": "application/json",
@@ -69,7 +69,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 formData.delete('profile_picture'); // Remove field if no new picture is selected
             }
 
-            const response = await fetch("http://127.0.0.1:8000/api/auth/user/edit/", {
+            const response = await fetch("https://volunteer-backend-xi.vercel.app/api/auth/user/edit/", {
                 method: "PUT",
                 headers: {
                     "Authorization": `Token ${authToken}`,
