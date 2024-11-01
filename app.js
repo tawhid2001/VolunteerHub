@@ -1,5 +1,5 @@
 const getVolunteerWorkList = () => {
-  fetch("https://volunteer-backend-xi.vercel.app/api/volunteer-work/")
+  fetch("http://127.0.0.1:8000/api/volunteer-work/")
     .then((res) => {
       if (!res.ok) {
         throw new Error("Network Response was not ok");
@@ -59,7 +59,7 @@ function displayVolunteerWork(volunteerWorks) {
 
 const loadCategories = () => {
   const token = localStorage.getItem("authToken");
-  fetch("https://volunteer-backend-xi.vercel.app/api/category-list/", {
+  fetch("http://127.0.0.1:8000/api/category-list/", {
     method: "GET",
     headers: {
       Authorization: `Token ${token}`,
@@ -145,7 +145,7 @@ const organize = (event) => {
 
       const token = localStorage.getItem("authToken");
 
-      fetch("https://volunteer-backend-xi.vercel.app/api/volunteer-work/", {
+      fetch("http://127.0.0.1:8000/api/volunteer-work/", {
           method: "POST",
           headers: {
               "Content-Type": "application/json", // Using JSON as we're now sending JSON data
@@ -177,7 +177,7 @@ const organize = (event) => {
 
 const loadWorkByCategory = (search) => {
   const token = localStorage.getItem("authToken");
-  fetch(`https://volunteer-backend-xi.vercel.app/api/list/${search}/`, {
+  fetch(`http://127.0.0.1:8000/api/list/${search}/`, {
     method: "GET",
     headers: {
       "Content-Type": "application/json",
@@ -193,7 +193,7 @@ const loadWorkByCategory = (search) => {
 loadCategories();
 
 const getMyVolunteerWorkList = () => {
-  fetch("https://volunteer-backend-xi.vercel.app/api/my-works/", {
+  fetch("http://127.0.0.1:8000/api/my-works/", {
     headers: {
       "Content-Type": "application/json",
       Authorization: `Token ${localStorage.getItem("authToken")}`,
@@ -212,7 +212,7 @@ const getMyVolunteerWorkList = () => {
 };
 
 const getMyParticipatedVolunteerWorkList = () => {
-  fetch("https://volunteer-backend-xi.vercel.app/api/participated/", {
+  fetch("http://127.0.0.1:8000/api/participated/", {
     headers: {
       Authorization: `Token ${localStorage.getItem("authToken")}`,
     },
@@ -231,7 +231,7 @@ const getMyParticipatedVolunteerWorkList = () => {
 
 const getUserDetail = () => {
   // Fetch user details using the token
-  fetch("https://volunteer-backend-xi.vercel.app/api/auth/user/", {
+  fetch("http://127.0.0.1:8000/api/auth/user/", {
     method: "GET",
     headers: {
       Authorization: `Token ${localStorage.getItem("authToken")}`,

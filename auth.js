@@ -47,33 +47,33 @@ const handleRegistration = async () => {
 
     try {
         if (profilePicture) {
-            // Upload the image to Imgbb and get the full URL
             const profilePictureUrl = await uploadToImgbb(profilePicture);
-            formData.append("profile_picture", profilePictureUrl); // Append the Imgbb URL as a full URL
+            formData.append("profile_picture", profilePictureUrl);
         }
 
-        const response = await fetch('https://volunteer-backend-xi.vercel.app/api/auth/registration/', {
+        const response = await fetch('http://127.0.0.1:8000/api/auth/registration/', {
             method: 'POST',
             body: formData,
         });
 
+        const contentType = response.headers.get("content-type");
         if (!response.ok) {
-            const text = await response.text(); // Get the response text
-            throw new Error(`Network response was not ok: ${text}`);
+            const text = await response.text(); // Get the raw text response
+            throw new Error(`Server error: ${text}`);
+        } else if (contentType && contentType.includes("application/json")) {
+            const data = await response.json();
+            console.log('Registration successful:', data);
+            window.location.href = "./login.html";
+        } else {
+            console.error("Unexpected response format: Not JSON");
+            throw new Error("Unexpected response format: Not JSON");
         }
-
-        const data = await response.json();
-        console.log('Registration successful:', data);
-        window.location.href = "./login.html";
     } catch (error) {
         console.error('Error during registration:', error);
-
-        if (error.response) {
-            const errData = await error.response.json();
-            document.getElementById("registration-result").innerHTML = `<p class="error">${errData.detail || 'An error occurred during registration.'}</p>`;
-        }
+        document.getElementById("registration-result").innerHTML = `<p class="error">${error.message || 'An error occurred during registration.'}</p>`;
     }
 };
+
 
 // Helper function to upload image to Imgbb
 const uploadToImgbb = async (file) => {
@@ -103,7 +103,7 @@ const uploadToImgbb = async (file) => {
 
 // Function for handling user login
 function handleLogin(formData) {
-    fetch("https://volunteer-backend-xi.vercel.app/api/auth/login/", {
+    fetch("http://127.0.0.1:8000/api/auth/login/", {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
@@ -131,7 +131,7 @@ function handleLogin(formData) {
 function logout() {
     const token = localStorage.getItem('authToken');
 
-    fetch('https://volunteer-backend-xi.vercel.app/api/auth/logout/', {
+    fetch('http://127.0.0.1:8000/api/auth/logout/', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
