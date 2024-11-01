@@ -51,7 +51,7 @@ const handleRegistration = async () => {
             formData.append("profile_picture", profilePictureUrl);
         }
 
-        const response = await fetch('http://127.0.0.1:8000/api/auth/registration/', {
+        const response = await fetch('https://volunteer-backend-xi.vercel.app/api/auth/registration/', {
             method: 'POST',
             body: formData,
         });
@@ -103,7 +103,7 @@ const uploadToImgbb = async (file) => {
 
 // Function for handling user login
 function handleLogin(formData) {
-    fetch("http://127.0.0.1:8000/api/auth/login/", {
+    fetch("https://volunteer-backend-xi.vercel.app/api/auth/login/", {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
@@ -131,7 +131,7 @@ function handleLogin(formData) {
 function logout() {
     const token = localStorage.getItem('authToken');
 
-    fetch('http://127.0.0.1:8000/api/auth/logout/', {
+    fetch('https://volunteer-backend-xi.vercel.app/api/auth/logout/', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
