@@ -28,6 +28,7 @@ const handleRegistration = async () => {
     const password1 = document.getElementById("password1").value;
     const password2 = document.getElementById("password2").value;
 
+    // Check if passwords match
     if (password1 !== password2) {
         document.getElementById("registration-result").innerHTML = '<p class="error">Passwords do not match!</p>';
         return;
@@ -46,30 +47,44 @@ const handleRegistration = async () => {
     const profilePicture = document.getElementById("profile_picture").files[0];
 
     try {
+        // Upload profile picture if it exists
         if (profilePicture) {
             const profilePictureUrl = await uploadToImgbb(profilePicture);
             formData.append("profile_picture", profilePictureUrl);
         }
 
-        const response = await fetch('https://volunteer-backend-xi.vercel.app/api/auth/registration/', {
+        // Send the registration request to the server
+        const response = await fetch('https://volunteer-backend-xi.vercel.app/api/register/', {
             method: 'POST',
             body: formData,
         });
 
         const contentType = response.headers.get("content-type");
+        const responseText = await response.text(); // Retrieve the full response as text
+
+        console.log("Response Text:", responseText); // Log the full response
+
+        // Handle the response
         if (!response.ok) {
-            const text = await response.text(); // Get the raw text response
-            throw new Error(`Server error: ${text}`);
+            // If the response is not okay, throw an error with the server's message
+            const errorMessage = responseText ? JSON.parse(responseText).detail || responseText : "An unknown error occurred.";
+            throw new Error(`Server error: ${errorMessage}`);
         } else if (contentType && contentType.includes("application/json")) {
-            const data = await response.json();
+            // Parse JSON response if the content type is correct
+            const data = JSON.parse(responseText);
             console.log('Registration successful:', data);
-            window.location.href = "./login.html";
+            window.location.href = "./login.html"; // Redirect to the login page on successful registration
+        } else if (responseText.trim() === "") {
+            // Handle the case of an empty response
+            throw new Error("Received an empty response from the server.");
         } else {
-            console.error("Unexpected response format: Not JSON");
+            // Handle unexpected response formats
+            console.error("Unexpected response format:", responseText);
             throw new Error("Unexpected response format: Not JSON");
         }
     } catch (error) {
         console.error('Error during registration:', error);
+        // Display the error message to the user
         document.getElementById("registration-result").innerHTML = `<p class="error">${error.message || 'An error occurred during registration.'}</p>`;
     }
 };
