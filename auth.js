@@ -135,7 +135,8 @@ function handleLogin(formData) {
         document.getElementById('login-result').innerHTML = '<p class="text-success">Login successful!</p>';
         localStorage.setItem("authToken", data.key);
         localStorage.setItem("username", formData.username);
-        window.location.href = 'profile.html';
+        console.log(data);
+        window.location.href = './index.html';
     })
     .catch(error => {
         document.getElementById('login-result').innerHTML = `<p class="error">${error.message}</p>`;

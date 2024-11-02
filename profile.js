@@ -3,13 +3,14 @@ document.addEventListener('DOMContentLoaded', function () {
     const profileForm = document.getElementById('profile-form');
     const profilePictureInput = document.getElementById('profile-picture-input');
     const updateResult = document.getElementById('update-result');
+    const userID = localStorage.getItem("user_id");
 
     // Imgbb API key (replace with your actual key)
     const imgbbApiKey = '74a46b9f674cfe097a70c2c8824668a7';
 
     // Fetch user details
     function loadUserProfile() {
-        fetch("https://volunteer-backend-xi.vercel.app/api/auth/user/", {
+        fetch(`https://volunteer-backend-xi.vercel.app/api/users/${userID}`, {
             method: "GET",
             headers: {
                 "Content-Type": "application/json",
@@ -30,6 +31,7 @@ document.addEventListener('DOMContentLoaded', function () {
             document.getElementById('bio').value = data.profile.bio;
             document.getElementById('contact_info').value = data.profile.contact_info;
             document.getElementById('profile-picture').src = data.profile.profile_picture;
+            localStorage.setItem("dp", data.profile.profile_picture);
         })
         .catch(error => {
             console.error('Error loading user profile:', error);
@@ -57,8 +59,9 @@ document.addEventListener('DOMContentLoaded', function () {
     // Update user profile
     profileForm.addEventListener('submit', async function (event) {
         event.preventDefault();
-        
+
         const formData = new FormData(profileForm);
+        console.log('FormData before send:', Object.fromEntries(formData.entries())); // Log form data
 
         try {
             // Check if a new profile picture is selected

@@ -240,7 +240,7 @@ const getUserDetail = () => {
     .then((response) => response.json())
     .then((userData) => {
       console.log("User details:", userData);
-      localStorage.setItem("dp", userData.profile.profile_picture);
+      localStorage.setItem('user_id',userData.pk);
     });
 };
 
